@@ -36,6 +36,17 @@ node {
 
 			println rc
 			
+		stage('create a  Scratch Org') {
+            if (isUnix()) {
+                rc = sh returnStatus: true, script: "${toolbelt} force:org:create --targetdevhubusername HubOrg --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --wait 10 --durationdays 1"
+            }
+            if (rc != 0) { error 'in display' }
+
+ 
+
+            println rc
+                
+        }
 			// need to pull out assigned username
 			if (isUnix()) {
 				rmsg = sh returnStdout: true, script: "${toolbelt} force:mdapi:deploy -d manifest/. -u ${HUB_ORG}"
